@@ -1,3 +1,9 @@
+import axios from 'axios';
+
+const http = axios.create({
+    baseURL: "http://localhost:3000/"
+})
+
 const releaseModule = {
     state:{
         release: [],
@@ -9,20 +15,36 @@ const releaseModule = {
 
     },
     actions:{
-        saveRelease: ({commit}, release) => {
+        saveRelease: async ({commit}, release) => {
+            await http.post('/count', release)
             commit("addRelease", release);
-            commit("sumTotal");
+            commit("sumTotal");    
+            location.reload();
         },
 
         updateTotal: ({ commit }) => commit("sumTotal"),
 
-        removeRelease: ({ commit }, id) => {
-            commit("removeRelease", id)
+        removeRelease: async ({ commit }, id) =>  {
+            const resposta = await http.delete(`/count/${id}`)
+            if(resposta.status === 204){
+            await commit("removeRelease", id)
+            await commit("sumTotal");
+        }
+        },
+
+        reloadReleases: async ({commit}) => {
+            const allReleases = await http.get('/count');
+            commit("updateReleases", allReleases.data)
             commit("sumTotal");
         }
     },
     mutations: {
-      addRelease: (state, release) => state.release.unshift(release),
+        updateReleases: 
+        (state, release) => state.release = release,
+        
+
+      addRelease: 
+      (state, release) => state.release.unshift(release),
       sumTotal: state => {
           const total = 
           state.release.length > 0 ? state.release.map(release => release.value)

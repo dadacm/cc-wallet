@@ -16,11 +16,11 @@
       <button>Adicionar</button>
       </form>
     </div>
-    <div class="releaseArea">
+    <div  class="releaseArea">
       <releaseCard v-for="release in allReleases"
       v-bind:key="release.id"
       :type="release.value > 0 ? 'entrada' : 'saida'"
-      :release="release"/>
+      :release="release" />
     </div>
   </div>
 </template>
@@ -36,13 +36,14 @@ data: () => {
   return {
   type:"saida",
   value: undefined,
-  description: ""
+  description: "",
+  date:""
   }
 },
 components: { ReleaseCard },
 computed: mapGetters(["allReleases"]),
 methods : {
-  ...mapActions(["saveRelease"]),
+  ...mapActions(["saveRelease", "reloadReleases"]),
   save(event) {
     event.preventDefault();
     if(this.type === "saida"){
@@ -57,6 +58,9 @@ methods : {
     this.value = undefined,
     this.description = ""
   }
+},
+created() {
+this.reloadReleases();
 }
 }
 </script>

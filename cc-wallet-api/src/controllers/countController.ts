@@ -20,4 +20,18 @@ if(message){
 return res.status(status).json(data);
 }
 
-module.exports = { addCount }
+const getAllCounts = async (req, res) => {
+  const { status, data } = await countServices.getAll();
+  return res.status(status).json(data);
+}
+
+const deleteById = async (req, res) => {
+  const { id } = req.params;
+  const { status, data, message } = await countServices.remove(id);
+  if(message){
+    return res.status(status).json(message)
+   }
+  return res.status(status).json(data);
+  }
+
+module.exports = { addCount, getAllCounts, deleteById }
