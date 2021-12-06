@@ -13,10 +13,13 @@ Vue3
 Vuex4
 Axios
 
+Iniciando a aplicação:
 
-Para Iniciando a aplicação:
+Primeiro abra a pasta cc-wallet-api/src e rode o comando a baixo para instalar as dependências do projeto:
 
-Primeiro abra a pasta cc-wallet-api/src e rode o comando a baixo para subir o container docker:
+npm i
+
+Depois use o comando seguinte para subir o container docker:
 
 docker-compose up -d
 
